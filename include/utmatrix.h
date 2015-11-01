@@ -62,66 +62,156 @@ public:
 template <class ValType>
 TVector<ValType>::TVector(int s, int si)
 {
+	Size=s;
+	StartIndex=si;
+	pVector= new <ValType>[Size];
+	for (int i=0;i<Size;i++)
+		pVector[i]=0;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> //конструктор копирования
 TVector<ValType>::TVector(const TVector<ValType> &v)
 {
+	Size=v.GetSize();
+	StartIndex=v.GetStartIndex();
+	pVector= new <ValType>[Size];
+	for (int i=0;i<Size;i++)
+		pVector[i]=v[i];
+
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType>
 TVector<ValType>::~TVector()
 {
+	if (pVector!=NULL)
+			delete[]pVector;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // доступ
 ValType& TVector<ValType>::operator[](int pos)
 {
+	return pVector[i];
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сравнение
 bool TVector<ValType>::operator==(const TVector &v) const
 {
+	if (Size != v.GetSize())
+		throw "Not_same_size";
+	else
+	{
+		bool sr=true;
+		for(int i=0;i<Size;i++)
+			if(pVector[i]!=v[i])
+				sr=false;
+		return sr;
+	}
+
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сравнение
 bool TVector<ValType>::operator!=(const TVector &v) const
 {
+	return ~(*this==v);
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // присваивание
 TVector<ValType>& TVector<ValType>::operator=(const TVector &v)
 {
+	if (Size!=v.GetSize())
+	{
+		delete []pVector;
+		Size=v.GetSize();
+		pVector= new <ValType>[Size];
+	}
+	StartIndex=v.GetStartIndex();
+	for (int i=0;i<Size;i++)
+		pVector[i]=v[i];
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // прибавить скаляр
 TVector<ValType> TVector<ValType>::operator+(const ValType &val)
 {
+	<ValType> Nv(this);
+	for(int i=0;i<Size;i++)
+		Nv[i]+=val;
+	return Nv
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // вычесть скаляр
 TVector<ValType> TVector<ValType>::operator-(const ValType &val)
 {
+	<ValType> Nv(this);
+	for(int i=0;i<Size;i++)
+		Nv[i]-=val;
+	return Nv
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // умножить на скаляр
 TVector<ValType> TVector<ValType>::operator*(const ValType &val)
-{
+{	
+	<ValType> Nv(this);
+	for(int i=0;i<Size;i++)
+		Nv[i]*=val;
+	return Nv
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сложение
 TVector<ValType> TVector<ValType>::operator+(const TVector<ValType> &v)
 {
+	if(Size>=v.GetSize())
+	{
+		<ValType> Nv(this);
+		for(int i=0;i<Size;i++)
+			Nv[i]+=v[i];
+	}
+	else
+	{
+		<ValType> Nv(v);
+		for(int i=0;i<v.GetSize();i++)
+			Nv[i]+=v[i];
+	}
+
+	return Nv
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // вычитание
 TVector<ValType> TVector<ValType>::operator-(const TVector<ValType> &v)
 {
+	if(Size>=v.GetSize())
+	{
+		<ValType> Nv(this);
+		for(int i=0;i<Size;i++)
+			Nv[i]-=v[i];
+	}
+	else
+	{
+		<ValType> Nv(v);
+		for(int i=0;i<v.GetSize();i++)
+			Nv[i]-=v[i];
+	}
+
+	return Nv
+
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // скалярное произведение
 ValType TVector<ValType>::operator*(const TVector<ValType> &v)
 {
+	if(Size>=v.GetSize())
+	{
+		<ValType> Nv(this);
+		for(int i=0;i<Size;i++)
+			Nv[i]*=v[i];
+	}
+	else
+	{
+		<ValType> Nv(v);
+		for(int i=0;i<v.GetSize();i++)
+			Nv[i]*=v[i];
+	}
+
+	return Nv
 } /*-------------------------------------------------------------------------*/
 
 
