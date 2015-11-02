@@ -90,7 +90,7 @@ TEST(TVector, can_assign_vector_to_itself)
 	TVector<int> v(size);
 	v[0] = 2;
 	v[1] = 2;
-	a = a;
+	v = v;
 
 	EXPECT_EQ(2, v[0]);
 	EXPECT_EQ(2, v[1]);
@@ -189,8 +189,8 @@ TEST(TVector, can_add_vectors_with_equal_size)
   v1[0]=3;
   v1[1]=3;
 
+  v3[0]=5;
   v3[1]=5;
-  v3[2]=5;
 
   EXPECT_EQ(v3, v2+v1);
 }
