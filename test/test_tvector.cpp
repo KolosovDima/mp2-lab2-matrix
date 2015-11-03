@@ -76,12 +76,16 @@ TEST(TVector, can_set_and_get_element)
 
 TEST(TVector, throws_when_set_element_with_negative_index)
 {
-  ASSERT_ANY_THROW(TVector<int> v[-1]);
+	TVector<int> v(2);
+
+  ASSERT_ANY_THROW( v[-1]=0);
 }
 
 TEST(TVector, throws_when_set_element_with_too_large_index)
 {
-   ASSERT_ANY_THROW(TVector<int> v[MAX_VECTOR_SIZE+1]);
+	TVector<int> v(2);
+
+   ASSERT_ANY_THROW( v[MAX_VECTOR_SIZE+1]);
 }
 
 TEST(TVector, can_assign_vector_to_itself)
@@ -95,12 +99,14 @@ TEST(TVector, can_assign_vector_to_itself)
 	EXPECT_EQ(2, v[0]);
 	EXPECT_EQ(2, v[1]);
 	EXPECT_TRUE(v==v);
+}
 
 TEST(TVector, can_assign_vectors_of_equal_size)
 {
     const int size = 2;
 	TVector<int> v1(size),v2(size);
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < size; i++) 
+	{
 		v1[i] = i;
 	}
 	v2 = v1;
@@ -224,7 +230,7 @@ TEST(TVector, cant_subtract_vectors_with_not_equal_size)
 TEST(TVector, can_multiply_vectors_with_equal_size)
 {
 	const int size=2;
-  TVector<int> v1(size;),v2(size;);
+  TVector<int> v1(size),v2(size);
   v2[0]=2;
   v2[1]=2;
   v1[0]=3;
