@@ -36,7 +36,7 @@ TEST(TMatrix, copied_matrix_has_its_own_memory)
 {
 	TMatrix<int> m1(2);
 	m1[0][1]=1;
-	m1[1][1]=2;
+	m1[1][0]=2;
 	TMatrix<int> m2(m1);
 
 	EXPECT_EQ(m1,m2);
@@ -119,9 +119,9 @@ TEST(TMatrix, compare_equal_matrices_return_true)
   const int size=2;
   TMatrix<int> m1(size),m2(size);
   m2[0][1]=2;
-  m2[1][1]=2;
+  m2[1][0]=2;
   m1[0][1]=2;
-  m1[1][1]=2;
+  m1[1][0]=2;
 
   EXPECT_TRUE(m1 == m2);
 }
@@ -145,12 +145,12 @@ TEST(TMatrix, can_add_matrices_with_equal_size)
     const int size=2;
   TMatrix<int> m1(size),m2(size),m3(size);
   m2[0][1]=2;
-  m2[1][1]=2;
+  m2[1][0]=2;
   m1[0][1]=3;
-  m1[1][1]=3;
+  m1[1][0]=3;
 
   m3[0][1]=5;
-  m3[1][1]=5;
+  m3[1][0]=5;
 
   EXPECT_EQ(m3, m2+m1);
 }

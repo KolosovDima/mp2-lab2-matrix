@@ -133,7 +133,7 @@ TEST(TVector, can_assign_vectors_of_different_size)
 
 TEST(TVector, compare_equal_vectors_return_true)
 {
-   const int size=2;
+  const int size=2;
   TVector<int> v1(size),v2(size);
   v2[0]=2;
   v2[1]=2;
