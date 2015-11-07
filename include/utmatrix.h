@@ -117,7 +117,7 @@ bool TVector<ValType>::operator==(const TVector &v) const
 	{
 		if (StartIndex != v.GetStartIndex())
 			sr=false;
-		for(int i=StartIndex;i<Size+StartIndex;i++)
+		for(int i=StartIndex;i<Size;i++)
 			if(pVector[i]!=v[i])
 				sr=false;
 		return sr;
@@ -250,19 +250,25 @@ public:
 template <class ValType>
 TMatrix<ValType>::TMatrix(int s): TVector<TVector<ValType> >(s)
 {
+	StartIndex=0;
+	Size=s;
 	if (s<0)
 		throw ("negative_size");
 	else if (s>MAX_MATRIX_SIZE) 
 		throw ("size_more_MAX_MATRIX_SIZE");
 	else
-		for (int i = 0; i < s; i++) 
-			pVector[i] = TVector<ValType>(s-i, i);
+		for (int i = StartIndex; i < s+StartIndex; i++) 
+			pVector[i] = TVector<ValType>(s-i+StartIndex, i+StartIndex);
 
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // конструктор копирования
 TMatrix<ValType>::TMatrix(const TMatrix<ValType> &mt):
-  TVector<TVector<ValType> >(mt) {}
+  TVector<TVector<ValType> >(mt) 
+  { 
+	  for(int i=StartIndex;i<Size+StartIndex;i++)
+			pVector[i]=mt[i];
+  }
 
 template <class ValType> // конструктор преобразования типа
 TMatrix<ValType>::TMatrix(const TVector<TVector<ValType> > &mt):
@@ -277,7 +283,7 @@ bool TMatrix<ValType>::operator==(const TMatrix<ValType> &mt) const
 		return false;
 	else
 	{
-		for (int i = 0; i < Size; i++) 
+		for (int i = StartIndex; i < Size+StartIndex; i++) 
 			if (pVector[i]!=mt[i])
 				return false;
 		return true;
@@ -300,15 +306,13 @@ TMatrix<ValType>& TMatrix<ValType>::operator=(const TMatrix<ValType> &mt)
 		{
 			delete[] pVector;
 			Size = mt.Size;
-			pVector = new TVector<ValType>[Size];
+			pVector = new TVector<ValType>[mt.Size];
 		}
 		StartIndex = mt.StartIndex;
-		for (int i = 0; i < Size; i++)
+		for (int i = StartIndex; i < Size+StartIndex; i++)
 			pVector[i] = mt.pVector[i];
 	}
 return *this;
-
-
 
 } /*-------------------------------------------------------------------------*/
 
@@ -320,7 +324,7 @@ TMatrix<ValType> TMatrix<ValType>::operator+(const TMatrix<ValType> &mt)
 	else
 	{
 		TMatrix<ValType> sum(*this);
-		for (int i = 0; i < Size; i++)
+		for (int i = StartIndex; i < Size+StartIndex; i++)
 			sum[i] = sum[i]+ mt[i];
 		return sum;
 	}
@@ -334,7 +338,7 @@ TMatrix<ValType> TMatrix<ValType>::operator-(const TMatrix<ValType> &mt)
 	else
 	{
 		TMatrix<ValType> sum(*this);
-		for (int i = 0; i < Size; i++)
+		for (int i = StartIndex; i < Size+StartIndex; i++)
 			sum[i] = sum[i]- mt[i];
 		return sum;
 	}
